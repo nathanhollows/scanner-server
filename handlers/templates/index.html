@@ -1,0 +1,56 @@
+{{ define "index" }}
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="color-scheme" content="light dark">
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+		>
+		<title>Numeric Input Form</title>
+		<style>
+		.centered-form {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			flex-direction: column;
+			text-align: left;
+			max-width: 25ch;
+		}
+		.form-element {
+			margin-bottom: 1em;
+		}
+		#numeric-input {
+			font-family: monospace;
+			letter-spacing: 0.3em;
+			text-align: center;
+			min-width: 100%;
+		}
+		</style>
+	</head>
+	<body>
+		<main class="container centered-form">
+			<h1>Hiere</h1>
+			<form>
+				<div class="form-element">
+					<label for="numeric-input">Please enter the ID on your card to retrace your journey!</label>
+					<input 
+						type="number" 
+						id="numeric-input" 
+						name="numeric-input" 
+						class="form-input" 
+						min="100000"
+						max="999999"
+						pattern="\d{6}" 
+						required 
+						title="Please enter exactly 6 digits (0-9)">
+				</div>
+				<button type="submit" class="form-element">Submit</button>
+			</form>
+		</main>
+	</body>
+</html>
+{{ end }}
