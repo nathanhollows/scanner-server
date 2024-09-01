@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/charmbracelet/log"
+	"github.com/nathanhollows/scanner-server/models"
 )
 
 // registerAction handles the node registration action.
@@ -67,36 +69,21 @@ func scanAction(w http.ResponseWriter, r *http.Request) {
 		node := r.FormValue("node")
 		tag := r.FormValue("tag")
 
-		if node == "" || tag == "" {
-			log.Info("malformed request to /scan: node and tag must be provided")
-			http.Error(w, "node and tag must be provided", http.StatusBadRequest)
-			return
+		// Multiple scans are fine since we filter them later
+		scan := models.Scan{
+			LocationID: node,
+			TagID:      tag,
+			Timestamp:  time.Now(),
 		}
 
-		// Insert the scan into the database
-		result, err := db.Exec(`
-		INSERT INTO scans (location_id, tag, timestamp) 
-		SELECT locations.id, ?, datetime('now') 
-			FROM nodes
-		INNER JOIN locations ON nodes.location_id = locations.id
-		WHERE nodes.node = ?`, tag, node)
+		err := scan.Save(r.Context())
 		if err != nil {
 			log.Error("error inserting scan", "err", err)
 			http.Error(w, "error inserting scan into database", http.StatusInternalServerError)
 			return
 		}
-		// Check how many rows were affected
-		rows, _ := result.RowsAffected()
-		if rows == 0 {
-			log.Error("node was not found or has not been registered", "node", node)
-			http.Error(w, "node was not found or has not been registered", http.StatusNotFound)
-			return
-		}
 
-		log.Info("scan recorded", "node", node, "tag", tag)
-		http.Error(w, "scan recorded", http.StatusOK)
-		return
-
+		w.WriteHeader(http.StatusOK)
 	default:
 		log.Info("method not allowed on /scan", "method", r.Method)
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
