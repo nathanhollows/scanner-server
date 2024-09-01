@@ -65,13 +65,13 @@ func registerAction(w http.ResponseWriter, r *http.Request) {
 // https://github.com/nathanhollows/museum-scanner/blob/main/docs/api-spec.md
 func scanAction(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
-	case "POST":
-		node := r.FormValue("node")
+	case http.MethodGet:
+		location := r.FormValue("location")
 		tag := r.FormValue("tag")
 
 		// Multiple scans are fine since we filter them later
 		scan := models.Scan{
-			LocationID: node,
+			LocationID: location,
 			TagID:      tag,
 			Timestamp:  time.Now(),
 		}
@@ -83,6 +83,7 @@ func scanAction(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		w.Write([]byte("scan recorded for location: " + location + " with tag: " + tag))
 		w.WriteHeader(http.StatusOK)
 	default:
 		log.Info("method not allowed on /scan", "method", r.Method)
