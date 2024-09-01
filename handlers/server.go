@@ -18,8 +18,6 @@ func Start() {
 	mux.HandleFunc("/", indexAction)
 	mux.HandleFunc("/register", registerAction)
 	mux.HandleFunc("/scan", scanAction)
-	mux.HandleFunc("/trip/", tripHandler)
-	mux.HandleFunc("/trip/{id}", tripHandler)
 	mux.HandleFunc("/generate", generateHandler)
 
 	var err error
