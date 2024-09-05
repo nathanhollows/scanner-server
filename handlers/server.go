@@ -17,6 +17,7 @@ func Start() {
 
 	mux.HandleFunc("/", indexAction)
 	mux.HandleFunc("/scan", scanAction)
+	mux.HandleFunc("/link", linkAction)
 	mux.HandleFunc("/generate", generateHandler)
 
 	log.Fatal(http.ListenAndServe(":8088", mux))

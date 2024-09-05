@@ -10,6 +10,7 @@ import (
 func CreateTables() {
 	var models = []interface{}{
 		(*Scan)(nil),
+		(*Tag)(nil),
 	}
 
 	for _, model := range models {

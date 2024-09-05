@@ -8,6 +8,40 @@ import (
 	"github.com/nathanhollows/scanner-server/models"
 )
 
+// linkAction links tags and cards
+func linkAction(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		tagID := r.FormValue("tag")
+		listID := r.FormValue("list")
+
+		tag := models.Tag{
+			TagID:  tagID,
+			ListID: listID,
+		}
+
+		if tagID == "" || listID == "" {
+			log.Info("malformed request to /link: tag and list must be provided")
+			http.Error(w, "tag and list must be provided", http.StatusBadRequest)
+			return
+		}
+
+		err := tag.Save(r.Context())
+		if err != nil {
+			log.Error("error inserting tag", "err", err)
+			http.Error(w, "error inserting tag into database", http.StatusInternalServerError)
+			return
+		}
+
+		log.Info("tag linked to list", "tag", tagID, "list", listID)
+		w.Write([]byte("tag linked to list"))
+	default:
+		log.Info("method not allowed on /link", "method", r.Method)
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+}
+
 // registerAction handles the node registration action.
 // It accepts HTTP POST requests.
 // For any other request method, it returns a 405 error.
