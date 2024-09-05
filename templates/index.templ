@@ -15,20 +15,19 @@ templ Layout(contents templ.Component) {
 			/>
 			<title>Hiere | Moriori, Music and Manawa</title>
 			<style>
-			* {
-				border-radius: 0 !important;
-			}
 		[data-theme=dark] {
+			--pico-font-family-sans-serif: 'Aktiv Grotesk Light';
+			--pico-font-size: 2rem;
 			--pico-background-color: #424530;
-			--pico-color: #fbfbfb;
+			--pico-color: #e3d4c1;
 			--pico-text-selection-color: rgba(1, 170, 255, 0.1875);
 			--pico-muted-color: #7b8495;
 			--pico-muted-border-color: #202632;
 			--pico-primary: #d7c9b7;
 			--pico-primary-background: #d7c9b7;
 			--pico-primary-border: var(--pico-primary-background);
-			--pico-primary-underline: rgba(1, 170, 255, 0.5);
-			--pico-primary-hover: #79c0ff;
+			--pico-primary-underline: #fff;
+			--pico-primary-hover: #fff;
 			--pico-primary-hover-background: #cbb9a4;
 			--pico-primary-hover-border: var(--pico-primary-hover-background);
 			--pico-primary-hover-underline: var(--pico-primary-hover);
@@ -55,12 +54,12 @@ templ Layout(contents templ.Component) {
 			--pico-contrast-focus: rgba(207, 213, 226, 0.25);
 			--pico-contrast-inverse: #000;
 			--pico-box-shadow: 0.0145rem 0.029rem 0.174rem rgba(7, 9, 12, 0.01698), 0.0335rem 0.067rem 0.402rem rgba(7, 9, 12, 0.024), 0.0625rem 0.125rem 0.75rem rgba(7, 9, 12, 0.03), 0.1125rem 0.225rem 1.35rem rgba(7, 9, 12, 0.036), 0.2085rem 0.417rem 2.502rem rgba(7, 9, 12, 0.04302), 0.5rem 1rem 6rem rgba(7, 9, 12, 0.06), 0 0 0 0.0625rem rgba(7, 9, 12, 0.015);
-			--pico-h1-color: #fbfbfb;
-			--pico-h2-color: #fbfbfb;
-			--pico-h3-color: #fbfbfb;
-			--pico-h4-color: #fbfbfb;
-			--pico-h5-color: #fbfbfb;
-			--pico-h6-color: #fbfbfb;
+			--pico-h1-color: #e3d4c1;
+			--pico-h2-color: #e3d4c1;
+			--pico-h3-color: #e3d4c1;
+			--pico-h4-color: #e3d4c1;
+			--pico-h5-color: #e3d4c1;
+			--pico-h6-color: #e3d4c1;
 			--pico-mark-background-color: #014063;
 			--pico-mark-color: #fff;
 			--pico-ins-color: #62af9a;
@@ -129,11 +128,23 @@ display: flex;
 height: 100vh;
 		flex-direction: column;
 		text-align: left;
-		max-width: 25ch;
+		max-width: 28ch;
 	}
 	.form-element {
 		margin-bottom: 1em;
 	}
+@font-face {
+  font-family: 'Aktiv Grotesk Light';
+  src: url('https://nathanhollows.com/assets/AktivGrotesk-Light.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  crossOrigin: 'anonymous';
+}
+
+/* Apply the font to specific elements */
+body {
+  font-family: 'Aktiv Grotesk Light', sans-serif;
+}
 #id{
 	font-family: monospace;
 	letter-spacing: 0.3em;
@@ -150,7 +161,7 @@ height: 100vh;
 
 templ Index() {
 	<main class="container centered-form">
-		<h1>Hiere</h1>
+		<h1>Enter your code</h1>
 		<form method="GET">
 			<div class="form-element">
 				<input
@@ -163,20 +174,20 @@ templ Index() {
 					pattern="\d{6}"
 					required
 					title="Please enter exactly 6 digits (0-9)"
+					style="border-radius: 0;"
 				/>
 			</div>
-			<button type="submit" class="form-element">Submit</button>
+			<button type="submit" class="form-element" style="border-radius: 3em">Submit</button>
 		</form>
 	</main>
 }
 
 templ Content(id string, content []template.HTML) {
 	<main class="container">
-		<h1>Hiere</h1>
 		<p><strong>Your card ID:</strong> { id }</p>
 		for _, c := range content {
 			@templ.Raw(c)
-			<hr/>
+			<div style="margin-bottom: 6em"></div>
 		}
 	</main>
 }
