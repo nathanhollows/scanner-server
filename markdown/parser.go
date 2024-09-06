@@ -34,7 +34,8 @@ var p = bluemonday.
 	AllowElementsMatching(regexp.MustCompile(`^iframe$`)).
 	AllowAttrs("class").Matching(regexp.MustCompile(`\benclave-object\b`)).OnElements("iframe").
 	AllowAttrs("src", "width", "height", "allow", "allowfullscreen", "frameborder").
-	OnElements("iframe")
+	OnElements("iframe").
+	AllowAttrs("role").OnElements("a")
 
 func sanitizeHTML(input []byte) []byte {
 	return p.SanitizeBytes(input)
@@ -85,6 +86,7 @@ func RenderFromFile(filename string) (template.HTML, error) {
 		goldmark.WithParserOptions(),
 		goldmark.WithRendererOptions(
 			html.WithHardWraps(),
+			html.WithUnsafe(),
 		),
 	)
 
