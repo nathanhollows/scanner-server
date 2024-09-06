@@ -14,10 +14,13 @@ templ Layout(contents templ.Component) {
 				href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
 			/>
 			<title>Hiere | Moriori, Music and Manawa</title>
+			<link rel="preconnect" href="https://fonts.googleapis.com"/>
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+			<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..400;1,300..800&display=swap" rel="stylesheet"/>
 			<style>
 		[data-theme=dark] {
-			--pico-font-family-sans-serif: 'Aktiv Grotesk Light';
-			--pico-font-size: 2rem;
+			--pico-font-family-sans-serif: "Open Sans", sans-serif;
+			--pico-font-size: 1.5rem;
 			--pico-background-color: #424530;
 			--pico-color: #e3d4c1;
 			--pico-text-selection-color: rgba(1, 170, 255, 0.1875);
@@ -123,28 +126,25 @@ templ Layout(contents templ.Component) {
 		}
 	.centered-form {
 display: flex;
-		 justify-content: center;
-		 align-items: center;
 height: 100vh;
-		flex-direction: column;
-		text-align: left;
-		max-width: 28ch;
+	flex-direction: column;
+	text-align: left;
+	max-width: 28ch;
 	}
 	.form-element {
 		margin-bottom: 1em;
 	}
-@font-face {
-  font-family: 'Aktiv Grotesk Light';
-  src: url('https://nathanhollows.com/assets/AktivGrotesk-Light.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  crossOrigin: 'anonymous';
-}
-
-/* Apply the font to specific elements */
-body {
-  font-family: 'Aktiv Grotesk Light', sans-serif;
-}
+	* {
+		font-family: "Open Sans", sans-serif;
+		font-optical-sizing: auto;
+		font-weight: 300 !important;
+		font-style: normal;
+		font-variation-settings:
+			"wdth" 100;
+	}
+	h1, h2, h3, h4, h5, h6 {
+		font-weight: 400 !important;
+	}
 #id{
 	font-family: monospace;
 	letter-spacing: 0.3em;
@@ -152,8 +152,14 @@ body {
 	min-width: 100%;
 }
 .enclave-object.youtube-enclave-object {
-  height: auto;
-  aspect-ratio: 16/9;
+height: auto;
+	aspect-ratio: 16/9;
+}
+a[role="button"] {
+	display: inline-block;
+	 border-radius: 3em;
+	 text-transform: uppercase;
+	 font-size: 0.9em;
 }
 </style>
 		</head>
@@ -164,7 +170,7 @@ body {
 }
 
 templ Index() {
-	<main class="container centered-form">
+	<main class="centered-form">
 		<h1>Enter your code</h1>
 		<form method="GET">
 			<div class="form-element">
@@ -187,7 +193,7 @@ templ Index() {
 }
 
 templ Content(id string, content []template.HTML) {
-	<main class="container">
+	<main style="text-align:center">
 		<p><strong>Your card ID:</strong> { id }</p>
 		for _, c := range content {
 			@templ.Raw(c)
