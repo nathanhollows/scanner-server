@@ -40,9 +40,8 @@ func contentHandler(w http.ResponseWriter, r *http.Request) {
 	var content []template.HTML
 
 	md, err := markdown.RenderFromFile("bonus")
-	if err != nil {
-		log.Error("Failed to render markdown", "error", err)
-	} else {
+	// Ignore error if bonus.md is not found.
+	if err == nil {
 		content = append(
 			content,
 			md,
