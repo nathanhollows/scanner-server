@@ -28,8 +28,6 @@ func indexAction(w http.ResponseWriter, r *http.Request) {
 }
 
 func contentHandler(w http.ResponseWriter, r *http.Request) {
-	log.Info("User entered ID", "id", r.FormValue("id"))
-
 	tag := r.FormValue("id")
 
 	scans := models.FindScansByTag(r.Context(), tag)
@@ -38,15 +36,6 @@ func contentHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var content []template.HTML
-
-	md, err := markdown.RenderFromFile("bonus")
-	// Ignore error if bonus.md is not found.
-	if err == nil {
-		content = append(
-			content,
-			md,
-		)
-	}
 
 	for _, scan := range scans {
 		md, err := markdown.RenderFromFile(scan.LocationID)
@@ -58,6 +47,15 @@ func contentHandler(w http.ResponseWriter, r *http.Request) {
 				md,
 			)
 		}
+	}
+
+	md, err := markdown.RenderFromFile("bonus")
+	// Ignore error if bonus.md is not found.
+	if err == nil {
+		content = append(
+			content,
+			md,
+		)
 	}
 
 	c := templates.Content(tag, content)
