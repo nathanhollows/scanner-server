@@ -194,7 +194,6 @@ templ Index() {
 
 templ Content(id string, content []template.HTML) {
 	<main style="text-align:center">
-		<p><strong>Your card ID:</strong> { id }</p>
 		for _, c := range content {
 			@templ.Raw(c)
 			<div style="margin-bottom: 6em"></div>
