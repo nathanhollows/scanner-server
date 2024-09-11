@@ -51,7 +51,7 @@ func contentHandler(w http.ResponseWriter, r *http.Request) {
 	for _, scan := range scans {
 		md, err := markdown.RenderFromFile(scan.LocationID)
 		if err != nil {
-			log.Error("Failed to render markdown", "error", err, "tag", tag)
+			log.Error("Failed to render markdown", "error", err, "tag", tag, "file", scan.LocationID)
 		} else {
 			content = append(
 				content,
