@@ -118,7 +118,6 @@ func scanAction(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.Write([]byte("scan recorded for location: " + location + " with tag: " + tag))
-		w.WriteHeader(http.StatusOK)
 	default:
 		log.Info("method not allowed on /scan", "method", r.Method)
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
