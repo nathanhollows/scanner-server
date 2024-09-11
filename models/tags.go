@@ -11,6 +11,8 @@ type Tag struct {
 	ListID string `bun:",pk"`
 }
 
+type Tags []Tag
+
 // Save saves the tag to the database.
 func (t *Tag) Save(ctx context.Context) error {
 	_, err := db.DB.NewInsert().Model(t).Exec(ctx)

@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/charmbracelet/log"
 	"github.com/nathanhollows/scanner-server/db"
 )
 
@@ -16,14 +17,28 @@ type Scan struct {
 type Scans []Scan
 
 // Find scans by Tag
-func FindScansByTag(ctx context.Context, tag string) Scans {
+func FindScansByTag(ctx context.Context, list_id string) Scans {
+	var tag Tag
+	err := db.DB.NewSelect().
+		Model(&tag).
+		Where("list_id = ?", list_id).
+		Scan(ctx)
+	if err != nil {
+		log.Error("error finding tag", "err", err, "tag", list_id)
+		return Scans{}
+	}
 	var scans Scans
-	db.DB.NewSelect().
+	err = db.DB.NewSelect().
 		Model(&scans).
 		ColumnExpr("max(timestamp) as timestamp, location_id, tag_id").
+		Where("tag_id = ?", tag.TagID).
 		Group("location_id").
 		Order("timestamp DESC").
 		Scan(ctx)
+	if err != nil {
+		log.Error("error finding scans", "err", err, "tag", list_id)
+		return Scans{}
+	}
 	return scans
 }
 
