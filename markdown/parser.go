@@ -33,7 +33,7 @@ var p = bluemonday.
 	// Allow iframe with class "enclave-object"
 	AllowElementsMatching(regexp.MustCompile(`^iframe$`)).
 	AllowAttrs("class").Matching(regexp.MustCompile(`\benclave-object\b`)).OnElements("iframe").
-	AllowAttrs("src", "width", "height", "allow", "allowfullscreen", "frameborder").
+	AllowAttrs("src", "width", "height", "allow", "allowfullscreen", "frameborder", "style").
 	OnElements("iframe").
 	AllowAttrs("role").OnElements("a")
 
